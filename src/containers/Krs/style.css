@@ -27,6 +27,14 @@ box-sizing: border-box;
 width: 100%;
 }
 
+p small {
+  font-size: 10px;
+}
+
+table small {
+  font-size: 12px;
+}
+
 table {
     width: 100%;
     padding: 10px 0px 10px 0px;

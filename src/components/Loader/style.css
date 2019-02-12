@@ -5,3 +5,7 @@
 .contentLoader {
     margin: 10px;
 }
+
+small {
+  font-size: 10px;
+}

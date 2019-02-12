@@ -5,13 +5,23 @@ import './style.css';
 class Krs extends Component {
   state = {
       show: null,
-      nip: '',
+      nip: null,
       isFetching: false
   }
 
   onSeriesInputChange = e => {
-          this.setState({nip: e.target.value, isFetching: true});
-      fetch(`https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]=${e.target.value}`)
+    this.setState({nip: e.target.value, isFetching: true});
+    var nipValue = document.getElementById("nipInput").value;
+    var apiURL = "";
+
+        if (nipValue.length == 10) {
+          apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]="+nipValue;
+        } else if (nipValue.length == 9 || nipValue.length  == 7 || nipValue.length == 14) {
+          apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.regon]="+nipValue;
+        } else {
+          apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]="+nipValue;
+        }
+      fetch(apiURL)
       .then(response => response.json())
       .then(json => this.setState({show: json['Dataobject'][0], isFetching: false}));
   };
@@ -23,14 +33,14 @@ class Krs extends Component {
       return (
           <div className="content">
                 <div>
-                  <input value={nip} type="text" placeholder="Podaj NIP spółki" id="nipInput" className="nipInput" onChange={this.onSeriesInputChange} onPaste={this.onSeriesInputChange} />
+                  <input value={nip} type="text" placeholder="Podaj NIP lub REGON spółki" id="nipInput" className="nipInput" onChange={this.onSeriesInputChange} onPaste={this.onSeriesInputChange} />
                 </div>
-              {!isFetching && show !== undefined && <p><b>Wpisz NIP, aby rozpocząć wyszukiwanie</b></p>}
-              {isFetching && show === null && <Loader />}
-              {isFetching && show === undefined && <Loader />}
-              {!isFetching && show === undefined && <p><b>Brak wyników lub błędne dane!</b></p>}
-              {!isFetching && show !== null && show !== undefined
+              {!isFetching && show !== undefined && nip == null && <p><b>Wpisz NIP lub REGON, aby rozpocząć wyszukiwanie</b><br/><small>Pamiętaj, aby sprawdzić poprawność wpisywanego numeru NIP lub REGON</small></p>}
+              {isFetching && <Loader />}
+              {!isFetching && show === undefined && <p><b>Brak wyników lub błędne dane!</b><br/><small>Sprawdź poprawność wpisanego numeru NIP lub REGON</small></p>}
+              {!isFetching && show !== null && show !== undefined && nip != null
                 &&
+                <p><b>Wynik wyszukiwania:</b><br/><small>Aby wyszukać ponownie usuń i wpisz inny numer NIP lub REGON</small>
                 <table>
                 <tr><td colspan='2'><big>{show.data['krs_podmioty.nazwa_skrocona'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa_skrocona']}</big><br/><small>{show.data['krs_podmioty.nazwa'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa']}</small></td></tr>
                        <tr><td>Forma prawna</td><td>{show.data['krs_podmioty.forma_prawna_str'] == (null || "") ? "-" : show.data['krs_podmioty.forma_prawna_str']}</td></tr>
@@ -42,14 +52,14 @@ class Krs extends Component {
                              <tr><td>Strona internetowa</td><td>{show.data['krs_podmioty.www'] == (null || "") ? "-" : show.data['krs_podmioty.www']}</td></tr>
                                <tr><td>Adres e-mail</td><td>{show.data['krs_podmioty.email'] == (null || "") ? "-" : show.data['krs_podmioty.email']}</td></tr>
 
-                                 <tr><td>Członkowie reprezentacji</td><td>" + personsToShow.join("") + "</td></tr>
+                                 <tr><td>Członkowie reprezentacji</td><td>TO DO</td></tr>
                               <tr><td>Sposób reprezentacji</td><td>{show.data['krs_podmioty.sposob_reprezentacji'] == (null || "") ? "-" : show.data['krs_podmioty.sposob_reprezentacji']}</td></tr>
 
                                 <tr><td>Data dokonania wpisu</td><td>{show.data['krs_podmioty.data_dokonania_wpisu'] == (null || "") ? "-" : show.data['krs_podmioty.data_dokonania_wpisu']}</td></tr>
                              <tr><td>Data ostatni wpis</td><td>{show.data['krs_podmioty.data_ostatni_wpis'] == (null || "") ? "-" : show.data['krs_podmioty.data_ostatni_wpis']}</td></tr>
                                <tr><td>Data rejestracji</td><td>{show.data['krs_podmioty.data_rejestracji'] == (null || "") ? "-" : show.data['krs_podmioty.data_rejestracji']}</td></tr>
-                                   <tr><td>Data wyrejestrowania przedsiebiorcy</td><td>{show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy'] == (null || "") ? "-" : show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy']}</td></tr>
-                                 </table>
+                                   <tr><td>Data wyrejestrowania przedsiebiorcy</td><td>{show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy'] == null ? "-" : show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy']}</td></tr>
+                                 </table></p>
               }
           </div>
       )
