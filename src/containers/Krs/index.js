@@ -33,7 +33,7 @@ class Krs extends Component {
                 &&
                 <table>
                 <tr><td colspan='2'><big>{show.data['krs_podmioty.nazwa_skrocona'] == null ? "-" : show.data['krs_podmioty.nazwa_skrocona']}</big><br/><small>{show.data['krs_podmioty.nazwa'] == null ? "-" : show.data['krs_podmioty.nazwa']}</small></td></tr>
-                       <tr><td>Forma prawna</td><td>{show.data['krs_podmioty.forma_prawna_str'] == null ? "-" : show.data['krs_podmioty.forma_prawna_str'] == null}</td></tr>
+                       <tr><td>Forma prawna</td><td>{show.data['krs_podmioty.forma_prawna_str'] == null ? "-" : show.data['krs_podmioty.forma_prawna_str']}</td></tr>
                              <tr><td>ADRES</td><td>{show.data['krs_podmioty.adres'] == null ? "-" : show.data['krs_podmioty.adres']}</td></tr>
                            <tr><td>NIP</td><td>{show.data['krs_podmioty.nip'] == null ? "-" : show.data['krs_podmioty.nip']}</td></tr>
                            <tr><td>REGON</td><td>{show.data['krs_podmioty.regon'] == null ? "-" : show.data['krs_podmioty.regon']}</td></tr>
@@ -45,8 +45,8 @@ class Krs extends Component {
                                  <tr><td>Członkowie reprezentacji</td><td>" + personsToShow.join("") + "</td></tr>
                               <tr><td>Sposób reprezentacji</td><td>{show.data['krs_podmioty.sposob_reprezentacji'] == null ? "-" : show.data['krs_podmioty.sposob_reprezentacji']}</td></tr>
 
-                                <tr><td>Data dokonania wpisu</td><td>{show.data['krs_podmioty.data_dokonania_wpisu'] == null ? "-" : {show.data['krs_podmioty.data_dokonania_wpisu']}</td></tr>
-                             <tr><td>Data ostatni wpis</td><td>{show.data['krs_podmioty.data_ostatni_wpis'] == null ? "-" : {show.data['krs_podmioty.data_ostatni_wpis']}</td></tr>
+                                <tr><td>Data dokonania wpisu</td><td>{show.data['krs_podmioty.data_dokonania_wpisu'] == null ? "-" : show.data['krs_podmioty.data_dokonania_wpisu']}</td></tr>
+                             <tr><td>Data ostatni wpis</td><td>{show.data['krs_podmioty.data_ostatni_wpis'] == null ? "-" : show.data['krs_podmioty.data_ostatni_wpis']}</td></tr>
                                <tr><td>Data rejestracji</td><td>{show.data['krs_podmioty.data_rejestracji'] == null ? "-" : show.data['krs_podmioty.data_rejestracji']}</td></tr>
                                    <tr><td>Data wyrejestrowania przedsiebiorcy</td><td>{show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy'] == null ? "-" : show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy']}</td></tr>
                                  </table>
