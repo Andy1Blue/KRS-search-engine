@@ -32,23 +32,23 @@ class Krs extends Component {
               {!isFetching && show !== null && show !== undefined
                 &&
                 <table>
-                <tr><td colspan='2'><big>" + shortNameOfCompany + "</big><br/><small>{show.data['krs_podmioty.nazwa']}</small></td></tr>
-                       <tr><td>Forma prawna</td><td>" + legalForm + "</td></tr>
-                             <tr><td>ADRES</td><td>" + adress + "</td></tr>
-                           <tr><td>NIP</td><td>" + nip + "</td></tr>
-                           <tr><td>REGON</td><td>" + regon + "</td></tr>
-                               "<tr><td>KRS</td><td>" + krs + "</td></tr>
-                 <tr><td>Kapitał zakładowy</td><td>" + kapitalZakladowy + " zĹ</td></tr>
-                             <tr><td>Strona internetowa</td><td>" + website + "</td></tr>
-                               <tr><td>Adres e-mail</td><td>" + email + "</td></tr>
+                <tr><td colspan='2'><big>{show.data['krs_podmioty.nazwa_skrocona']}</big><br/><small>{show.data['krs_podmioty.nazwa']}</small></td></tr>
+                       <tr><td>Forma prawna</td><td>{show.data['krs_podmioty.forma_prawna_str']}</td></tr>
+                             <tr><td>ADRES</td><td>{show.data['krs_podmioty.adres']}</td></tr>
+                           <tr><td>NIP</td><td>{show.data['krs_podmioty.nip']}</td></tr>
+                           <tr><td>REGON</td><td>{show.data['krs_podmioty.regon']}</td></tr>
+                               "<tr><td>KRS</td><td>{show.data['krs_podmioty.krs']}</td></tr>
+                 <tr><td>Kapitał zakładowy</td><td>{show.data['krs_podmioty.wartosc_kapital_zakladowy']} pln</td></tr>
+                             <tr><td>Strona internetowa</td><td>{show.data['krs_podmioty.www']}</td></tr>
+                               <tr><td>Adres e-mail</td><td>{show.data['krs_podmioty.email']}</td></tr>
 
-                                 <tr><td>CzĹonkowie reprezentacji</td><td>" + personsToShow.join("") + "</td></tr>
-                              <tr><td>SposĂłb reprezentacji</td><td>" + representationWay + "</td></tr>
+                                 <tr><td>Członkowie reprezentacji</td><td>" + personsToShow.join("") + "</td></tr>
+                              <tr><td>Sposób reprezentacji</td><td>{show.data['krs_podmioty.sposob_reprezentacji']}</td></tr>
 
-                                <tr><td>Data dokonania wpisu</td><td>" + data_dokonania_wpisu + "</td></tr>
-                             <tr><td>Data ostatni wpis</td><td>" + data_ostatni_wpis + "</td></tr>
-                               <tr><td>Data rejestracji</td><td>" + data_rejestracji + "</td></tr>
-                                   <tr><td>Data wyrejestrowania przedsiebiorcy</td><td>" + data_wyrejestrowania_przedsiebiorcy + "</td></tr>
+                                <tr><td>Data dokonania wpisu</td><td>{show.data['krs_podmioty.data_dokonania_wpisu']}</td></tr>
+                             <tr><td>Data ostatni wpis</td><td>{show.data['krs_podmioty.data_ostatni_wpis']}</td></tr>
+                               <tr><td>Data rejestracji</td><td>{show.data['krs_podmioty.data_rejestracji']}</td></tr>
+                                   <tr><td>Data wyrejestrowania przedsiebiorcy</td><td>{show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy']}</td></tr>
                                  </table>
               }
           </div>
