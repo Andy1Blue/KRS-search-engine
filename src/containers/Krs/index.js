@@ -35,8 +35,6 @@ class Krs extends Component {
           fetch(apiLinkRepresantation)
           .then(response => response.json())
           .then(responsePerson => {
-            console.log(responsePerson);
-
             let personsCount = 0;
             let personsToShow = [];
 
