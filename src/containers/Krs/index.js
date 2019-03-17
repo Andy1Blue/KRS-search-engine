@@ -11,7 +11,7 @@ class Krs extends Component {
 
   onSeriesInputChange = e => {
     this.setState({nip: e.target.value, isFetching: true});
-    
+
     var regex = /<|>|script|[^\w\s]/gi;
     var nipValue = document.getElementById("nipInput").value;
     nipValue = nipValue.trim();
@@ -26,6 +26,7 @@ class Krs extends Component {
         } else {
           apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]="+nipValue;
         }
+
       fetch(apiURL)
       .then(response => response.json())
       .then(json => this.setState({show: json['Dataobject'][0], isFetching: false}));
@@ -45,7 +46,7 @@ class Krs extends Component {
               {!isFetching && show === undefined && <p><b>Brak wyników lub błędne dane!</b><br/><small>Sprawdź poprawność wpisanego numeru NIP lub REGON</small></p>}
               {!isFetching && show !== null && show !== undefined && nip != null
                 &&
-                <p><b>Wynik wyszukiwania:</b><br/><small>Aby wyszukać ponownie usuń i wpisz inny numer NIP lub REGON</small>
+                <p>{nip}<b>Wynik wyszukiwania:</b><br/><small>Aby wyszukać ponownie usuń i wpisz inny numer NIP lub REGON</small>
 
                 <ul>
                 <li><span class="liTitle">Nazwa</span>{show.data['krs_podmioty.nazwa_skrocona'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa_skrocona']}<br/>{show.data['krs_podmioty.nazwa'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa']}</li>
