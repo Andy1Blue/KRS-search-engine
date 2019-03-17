@@ -30,6 +30,58 @@ class Krs extends Component {
       fetch(apiURL)
       .then(response => response.json())
       .then(json => {
+        let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
+
+          fetch(apiLinkRepresantation)
+          .then(response => response.json())
+          .then(responsePerson => {
+            let personsCount = 0;
+            let personsToShow = [];
+
+            if (responsePerson["layers"]["reprezentacja"].length > 0) {
+              personsCount = responsePerson["layers"]["reprezentacja"].length;
+                if (personsCount > 0) {
+                  personsToShow = [];
+                  for (let i = 0; i < personsCount; i++) {
+                    personsToShow[i] = responsePerson["layers"]["reprezentacja"][i].nazwa + " (" + responsePerson["layers"]["reprezentacja"][i].funkcja + ")";
+                  }
+                }
+            }
+
+            let personsCountProxies = 0;
+            let personsProxiesToShow = [];
+
+            if (responsePerson["layers"]["prokurenci"].length > 0) {
+                personsCountProxies = responsePerson["layers"]["prokurenci"].length;
+                if (personsCount > 0) {
+                    personsProxiesToShow = [];
+                    for (let i = 0; i < personsCountProxies; i++) {
+                        personsProxiesToShow[i] = responsePerson["layers"]["prokurenci"][i].nazwa + " (" + responsePerson["layers"]["prokurenci"][i].funkcja + ")";
+                    }
+                }
+            }
+
+            let personsCountPartners = 0;
+            let personsPartnersToShow = [];
+
+            if (responsePerson["layers"]["wspolnicy"].length > 0) {
+                personsCountPartners = responsePerson["layers"]["wspolnicy"].length;
+                if (personsCount > 0) {
+                    personsPartnersToShow = [];
+                    for (let i = 0; i < personsCountPartners; i++) {
+                        personsPartnersToShow[i] = responsePerson["layers"]["wspolnicy"][i].nazwa + " (Wspólnik)";
+                    }
+                }
+            }
+
+            personsToShow = personsToShow.concat(personsProxiesToShow);
+            personsToShow = personsToShow.concat(personsPartnersToShow);
+            personsToShow = [...new Set(personsToShow)];
+
+            this.setState({show: json['Dataobject'][0], isFetching: false, personsToShow:personsToShow})
+          });
+
+          });
         this.setState({show: json['Dataobject'][0], isFetching: false})
 
         let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json.data["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
@@ -40,13 +92,10 @@ class Krs extends Component {
             console.log(responsePerson);
           });
       });
-
   };
 
   render() {
-      const {show,nip,isFetching} = this.state;
-      console.log("show: "+show);
-
+      const {show,nip,isFetching,personsToShow} = this.state;
       return (
           <div className="content">
                 <div>
@@ -71,7 +120,8 @@ class Krs extends Component {
                     <li><span className="liTitle">Strona internetowa</span>{show.data['krs_podmioty.www'] === (null || "") ? "-" : show.data['krs_podmioty.www']}</li>
                     <li><span className="liTitle">Adres e-mail</span>{show.data['krs_podmioty.email'] === (null || "") ? "-" : show.data['krs_podmioty.email']}</li>
 
-                    <li><span className="liTitle">Członkowie reprezentacji</span>TO DO</li>
+                    <li><span className="liTitle">Członkowie reprezentacji</span>{personsToShow.join(", ")}</li>
+
                     <li><span className="liTitle">Sposób reprezentacji</span>{show.data['krs_podmioty.sposob_reprezentacji'] === (null || "") ? "-" : show.data['krs_podmioty.sposob_reprezentacji']}</li>
 
                     <li><span className="liTitle">Data dokonania wpisu</span>{show.data['krs_podmioty.data_dokonania_wpisu'] === (null || "") ? "-" : show.data['krs_podmioty.data_dokonania_wpisu']}</li>
