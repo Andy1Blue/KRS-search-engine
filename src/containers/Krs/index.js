@@ -41,25 +41,29 @@ class Krs extends Component {
               {!isFetching && show !== null && show !== undefined && nip != null
                 &&
                 <p><b>Wynik wyszukiwania:</b><br/><small>Aby wyszukać ponownie usuń i wpisz inny numer NIP lub REGON</small>
-                <table>
-                <tr><td colspan='2'><big>{show.data['krs_podmioty.nazwa_skrocona'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa_skrocona']}</big><br/><small>{show.data['krs_podmioty.nazwa'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa']}</small></td></tr>
-                       <tr><td>Forma prawna</td><td>{show.data['krs_podmioty.forma_prawna_str'] == (null || "") ? "-" : show.data['krs_podmioty.forma_prawna_str']}</td></tr>
-                             <tr><td>ADRES</td><td>{show.data['krs_podmioty.adres'] == (null || "") ? "-" : show.data['krs_podmioty.adres']}</td></tr>
-                           <tr><td>NIP</td><td>{show.data['krs_podmioty.nip'] == (null || "") ? "-" : show.data['krs_podmioty.nip']}</td></tr>
-                           <tr><td>REGON</td><td>{show.data['krs_podmioty.regon'] == (null || "") ? "-" : show.data['krs_podmioty.regon']}</td></tr>
-                               <tr><td>KRS</td><td>{show.data['krs_podmioty.krs'] == (null || "") ? "-" : show.data['krs_podmioty.krs']}</td></tr>
-                 <tr><td>Kapitał zakładowy</td><td>{show.data['krs_podmioty.wartosc_kapital_zakladowy'] == (null || "") ? "-" : show.data['krs_podmioty.wartosc_kapital_zakladowy']} pln</td></tr>
-                             <tr><td>Strona internetowa</td><td>{show.data['krs_podmioty.www'] == (null || "") ? "-" : show.data['krs_podmioty.www']}</td></tr>
-                               <tr><td>Adres e-mail</td><td>{show.data['krs_podmioty.email'] == (null || "") ? "-" : show.data['krs_podmioty.email']}</td></tr>
 
-                                 <tr><td>Członkowie reprezentacji</td><td>TO DO</td></tr>
-                              <tr><td>Sposób reprezentacji</td><td>{show.data['krs_podmioty.sposob_reprezentacji'] == (null || "") ? "-" : show.data['krs_podmioty.sposob_reprezentacji']}</td></tr>
+                <ul>
+                <li><span class="liTitle">Nazwa</span>{show.data['krs_podmioty.nazwa_skrocona'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa_skrocona']}<br/>{show.data['krs_podmioty.nazwa'] == (null || "") ? "-" : show.data['krs_podmioty.nazwa']}</li>
+                       <li><span class="liTitle">Forma prawna</span>{show.data['krs_podmioty.forma_prawna_str'] == (null || "") ? "-" : show.data['krs_podmioty.forma_prawna_str']}</li>
+                             <li><span class="liTitle">Adres</span>{show.data['krs_podmioty.adres'] == (null || "") ? "-" : show.data['krs_podmioty.adres']}</li>
+                           <li><span class="liTitle">NIP</span>{show.data['krs_podmioty.nip'] == (null || "") ? "-" : show.data['krs_podmioty.nip']}</li>
+                           <li><span class="liTitle">REGON</span>{show.data['krs_podmioty.regon'] == (null || "") ? "-" : show.data['krs_podmioty.regon']}</li>
+                               <li><span class="liTitle">KRS</span>{show.data['krs_podmioty.krs'] == (null || "") ? "-" : show.data['krs_podmioty.krs']}</li>
+                 <li><span class="liTitle">Kapitał zakładowy</span>{show.data['krs_podmioty.wartosc_kapital_zakladowy'] == (null || "") ? "-" : show.data['krs_podmioty.wartosc_kapital_zakladowy']} pln</li>
+                             <li><span class="liTitle">Strona internetowa</span>{show.data['krs_podmioty.www'] == (null || "") ? "-" : show.data['krs_podmioty.www']}</li>
+                               <li><span class="liTitle">Adres e-mail</span>{show.data['krs_podmioty.email'] == (null || "") ? "-" : show.data['krs_podmioty.email']}</li>
 
-                                <tr><td>Data dokonania wpisu</td><td>{show.data['krs_podmioty.data_dokonania_wpisu'] == (null || "") ? "-" : show.data['krs_podmioty.data_dokonania_wpisu']}</td></tr>
-                             <tr><td>Data ostatni wpis</td><td>{show.data['krs_podmioty.data_ostatni_wpis'] == (null || "") ? "-" : show.data['krs_podmioty.data_ostatni_wpis']}</td></tr>
-                               <tr><td>Data rejestracji</td><td>{show.data['krs_podmioty.data_rejestracji'] == (null || "") ? "-" : show.data['krs_podmioty.data_rejestracji']}</td></tr>
-                                   <tr><td>Data wyrejestrowania przedsiebiorcy</td><td>{show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy'] == null ? "-" : show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy']}</td></tr>
-                                 </table></p>
+                                 <li><span class="liTitle">Członkowie reprezentacji</span>TO DO</li>
+                              <li><span class="liTitle">Sposób reprezentacji</span>{show.data['krs_podmioty.sposob_reprezentacji'] == (null || "") ? "-" : show.data['krs_podmioty.sposob_reprezentacji']}</li>
+
+                                <li><span class="liTitle">Data dokonania wpisu</span>{show.data['krs_podmioty.data_dokonania_wpisu'] == (null || "") ? "-" : show.data['krs_podmioty.data_dokonania_wpisu']}</li>
+                             <li><span class="liTitle">Data ostatni wpis</span>{show.data['krs_podmioty.data_ostatni_wpis'] == (null || "") ? "-" : show.data['krs_podmioty.data_ostatni_wpis']}</li>
+                               <li><span class="liTitle">Data rejestracji</span>{show.data['krs_podmioty.data_rejestracji'] == (null || "") ? "-" : show.data['krs_podmioty.data_rejestracji']}</li>
+                                   <li><span class="liTitle">Data wyrejestrowania przedsiebiorcy</span>{show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy'] == null ? "-" : show.data['krs_podmioty.data_wyrejestrowania_przedsiebiorcy']}</li>
+                                 </ul>
+
+
+                                 </p>
               }
           </div>
       )

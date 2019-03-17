@@ -6,6 +6,12 @@
   text-align: center;
 }
 
+@media only screen and (max-width: 768px) {
+  .content {
+    padding: 10px;
+  }
+}
+
 .titleImg {
   width: 150px;
 }
@@ -31,24 +37,25 @@ p small {
   font-size: 10px;
 }
 
-table small {
-  font-size: 12px;
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
 }
 
-table {
-  width: 100%;
-  padding: 10px 0px 10px 0px;
-  margin: 10px 0px 0px 0px;
-}
-
-td {
+li {
+  flex-grow: 2;
+  flex-basis: 300px;
+  text-align: center;
   padding: 10px;
+  background-color: #ebe7ff;
+  margin: 5px;
+  font-size: 16px;
 }
 
-tr:nth-child(odd) {
-  background-color: rgba(223, 223, 223, 0.500);
-}
-
-tr:nth-child(even) {
-  background-color: rgb(180, 180, 180, 0.500);
+.liTitle {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
 }
