@@ -81,17 +81,8 @@ class Krs extends Component {
             this.setState({show: json['Dataobject'][0], isFetching: false, personsToShow:personsToShow})
           });
 
-          });
-        this.setState({show: json['Dataobject'][0], isFetching: false})
+        });
 
-        let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json.data["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
-        console.log(json);
-
-          fetch(apiLinkRepresantation)
-          .then(responsePerson => {
-            console.log(responsePerson);
-          });
-      });
   };
 
   render() {
