@@ -82,7 +82,16 @@ class Krs extends Component {
           });
 
           });
+        this.setState({show: json['Dataobject'][0], isFetching: false})
 
+        let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json.data["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
+        console.log(json);
+
+          fetch(apiLinkRepresantation)
+          .then(responsePerson => {
+            console.log(responsePerson);
+          });
+      });
   };
 
   render() {
@@ -112,6 +121,7 @@ class Krs extends Component {
                     <li><span className="liTitle">Adres e-mail</span>{show.data['krs_podmioty.email'] === (null || "") ? "-" : show.data['krs_podmioty.email']}</li>
 
                     <li><span className="liTitle">Członkowie reprezentacji</span>{personsToShow.join(", ")}</li>
+
                     <li><span className="liTitle">Sposób reprezentacji</span>{show.data['krs_podmioty.sposob_reprezentacji'] === (null || "") ? "-" : show.data['krs_podmioty.sposob_reprezentacji']}</li>
 
                     <li><span className="liTitle">Data dokonania wpisu</span>{show.data['krs_podmioty.data_dokonania_wpisu'] === (null || "") ? "-" : show.data['krs_podmioty.data_dokonania_wpisu']}</li>
