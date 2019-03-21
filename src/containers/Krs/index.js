@@ -111,10 +111,8 @@ class Krs extends Component {
                     <li><span className="liTitle">Nazwa</span>{show.data['krs_podmioty.nazwa_skrocona'] === (null || "") ? "-" : show.data['krs_podmioty.nazwa_skrocona']}<br/>{show.data['krs_podmioty.nazwa'] === (null || "") ? "-" : show.data['krs_podmioty.nazwa']}</li>
                     <li><span className="liTitle">Forma prawna</span>{show.data['krs_podmioty.forma_prawna_str'] === (null || "") ? "-" : show.data['krs_podmioty.forma_prawna_str']}</li>
                     <li><span className="liTitle">Adres</span>{show.data['krs_podmioty.adres'] === (null || "") ? "-" : show.data['krs_podmioty.adres']}
-
-<br/><img src={locationiconSrc}/>
-<a target="_blank" rel="noopener noreferrer" href={'https://www.google.com/maps/search/' + show.data['krs_podmioty.adres_ulica'] + " " + show.data['krs_podmioty.adres_numer'] + " " + show.data['krs_podmioty.adres_poczta']}>Zobacz na mapie</a>
-
+                      <br/><img src={locationiconSrc}/>
+                      <a target="_blank" rel="noopener noreferrer" href={'https://www.google.com/maps/search/' + show.data['krs_podmioty.adres_ulica'] + " " + show.data['krs_podmioty.adres_numer'] + " " + show.data['krs_podmioty.adres_poczta']}>Zobacz na mapie</a>
                     </li>
                     <li><span className="liTitle">NIP</span>{show.data['krs_podmioty.nip'] === (null || "") ? "-" : show.data['krs_podmioty.nip']}</li>
                     <li><span className="liTitle">REGON</span>{show.data['krs_podmioty.regon'] === (null || "") ? "-" : show.data['krs_podmioty.regon']}</li>
