@@ -6,12 +6,6 @@
   text-align: center;
 }
 
-@media only screen and (max-width: 768px) {
-  .content {
-    padding: 10px;
-  }
-}
-
 .titleImg {
   width: 150px;
 }
@@ -58,4 +52,21 @@ li {
   display: block;
   margin-bottom: 10px;
   font-weight: 600;
+}
+
+@media only screen and (max-width: 768px) {
+  .content {
+    padding: 10px;
+  }
+  .nipInput {
+    background-size: 19px 19px;
+    background-position: 8px 7px;
+    padding: 10px 0px 10px 44px;
+    border-width: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 10px;
+    box-sizing: border-box;
+    width: 100%;
+  }
 }
