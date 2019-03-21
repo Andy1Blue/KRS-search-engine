@@ -6,7 +6,7 @@ const Loader = props => (
     <div className="contentLoader">
         <img className="loader" alt="Loader icon" src={loaderSrc} />
         <br/>
-        <p><small>Trwa wyszukiwanie...</small></p>
+        <p className="loaderText"><small>Trwa wyszukiwanie...</small></p>
     </div>
 );
 

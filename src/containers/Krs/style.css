@@ -4,6 +4,8 @@
   padding: 50px;
   height: 100%;
   text-align: center;
+  animation-name: test;
+  animation-duration: 1s;
 }
 
 .titleImg {
@@ -31,11 +33,18 @@ p small {
   font-size: 10px;
 }
 
+p {
+  animation-name: test;
+  animation-duration: 1s;
+}
+
 ul {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
+  animation-name: test;
+  animation-duration: 1s;
 }
 
 li {
@@ -58,6 +67,7 @@ li {
   .content {
     padding: 10px;
   }
+
   .nipInput {
     background-size: 19px 19px;
     background-position: 8px 7px;
@@ -68,5 +78,15 @@ li {
     font-size: 14px;
     box-sizing: border-box;
     width: 100%;
+  }
+}
+
+@keyframes test {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

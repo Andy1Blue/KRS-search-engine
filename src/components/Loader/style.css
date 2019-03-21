@@ -9,3 +9,7 @@
 small {
   font-size: 10px;
 }
+
+.loaderText {
+  animation: null;
+}
