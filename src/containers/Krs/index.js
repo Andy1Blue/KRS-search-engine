@@ -6,7 +6,9 @@ class Krs extends Component {
   state = {
       show: null,
       nip: '',
-      isFetching: false
+      isFetching: false,
+      count: 0,
+      personsToShow: null
   }
 
   onSeriesInputChange = e => {
@@ -16,7 +18,6 @@ class Krs extends Component {
     var nipValue = document.getElementById("nipInput").value;
     nipValue = nipValue.trim();
     nipValue = nipValue.replace(regex , '');
-
     var apiURL = "";
 
         if (nipValue.length === 10) {
@@ -30,11 +31,15 @@ class Krs extends Component {
       fetch(apiURL)
       .then(response => response.json())
       .then(json => {
-        let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
+        if(json.Count===0){
+          this.setState({count: json['Count'], show: json['Dataobject'][0], isFetching: false, personsToShow:null})
+        } else {
+         let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
 
           fetch(apiLinkRepresantation)
           .then(response => response.json())
           .then(responsePerson => {
+
             let personsCount = 0;
             let personsToShow = [];
 
@@ -78,24 +83,25 @@ class Krs extends Component {
             personsToShow = personsToShow.concat(personsPartnersToShow);
             personsToShow = [...new Set(personsToShow)];
 
-            this.setState({show: json['Dataobject'][0], isFetching: false, personsToShow:personsToShow})
-          });
+            this.setState({count: json['Count'], show: json['Dataobject'][0], isFetching: false, personsToShow:personsToShow})
 
+          });
+}
         });
 
   };
 
   render() {
-      const {show,nip,isFetching,personsToShow} = this.state;
+      const {show,nip,isFetching,personsToShow,count} = this.state;
       return (
           <div className="content">
                 <div>
                   <input value={nip} type="text" placeholder="Podaj NIP lub REGON spółki" id="nipInput" className="nipInput" onChange={this.onSeriesInputChange} onPaste={this.onSeriesInputChange} />
                 </div>
-              {!isFetching && show !== undefined && nip == null && <p><b>Wpisz NIP lub REGON, aby rozpocząć wyszukiwanie</b><br/><small>Pamiętaj, aby sprawdzić poprawność wpisywanego numeru NIP lub REGON</small></p>}
+              {!isFetching && show !== 0 && nip === null && <p><b>Wpisz NIP lub REGON, aby rozpocząć wyszukiwanie</b><br/><small>Pamiętaj, aby sprawdzić poprawność wpisywanego numeru NIP lub REGON</small></p>}
               {isFetching && <Loader />}
-              {!isFetching && show === undefined && <p><b>Brak wyników lub błędne dane!</b><br/><small>Sprawdź poprawność wpisanego numeru NIP lub REGON</small></p>}
-              {!isFetching && show !== null && show !== undefined && nip != null
+              {!isFetching && count === 0 && <p><b>Brak wyników lub błędne dane!</b><br/><small>Sprawdź poprawność wpisanego numeru NIP lub REGON</small></p>}
+              {!isFetching && show !== null && show !== undefined && nip !== null
                 &&
                 <div>
                   <p><b>Wynik wyszukiwania:</b><br/><small>Aby wyszukać ponownie usuń i wpisz inny numer NIP lub REGON</small></p>
