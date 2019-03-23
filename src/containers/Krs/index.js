@@ -3,6 +3,8 @@ import Loader from '../../components/Loader';
 import './style.css';
 import locationiconSrc from '../../assets/locationicon.png';
 
+let regex = /<|>|script|[^\w\s]/gi;
+
 class Krs extends Component {
   state = {
       show: null,
@@ -14,82 +16,77 @@ class Krs extends Component {
 
   onSeriesInputChange = e => {
     this.setState({nip: e.target.value, isFetching: true});
-
-    var regex = /<|>|script|[^\w\s]/gi;
     var nipValue = document.getElementById("nipInput").value;
     nipValue = nipValue.trim();
     nipValue = nipValue.replace(regex , '');
-    var apiURL = "";
 
-        if (nipValue.length === 10) {
-          apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]="+nipValue;
-        } else if (nipValue.length === 9 || nipValue.length  === 7 || nipValue.length === 14) {
-          apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.regon]="+nipValue;
-        } else {
-          apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]="+nipValue;
+    let apiURL = "";
+    if (nipValue.length === 10) {
+      apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]="+nipValue;
+    } else if (nipValue.length === 9 || nipValue.length  === 7 || nipValue.length === 14) {
+      apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.regon]="+nipValue;
+    } else {
+      apiURL = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty.json?conditions[krs_podmioty.nip]="+nipValue;
+    }
+
+  fetch(apiURL)
+  .then(response => response.json())
+  .then(json => {
+    if(json.Count===0){
+      this.setState({count: json['Count'], show: json['Dataobject'][0], isFetching: false, personsToShow:null})
+    } else {
+     let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
+      fetch(apiLinkRepresantation)
+      .then(response => response.json())
+      .then(responsePerson => {
+
+        let personsCount = 0;
+        let personsToShow = [];
+
+        if (responsePerson["layers"]["reprezentacja"].length > 0) {
+          personsCount = responsePerson["layers"]["reprezentacja"].length;
+            if (personsCount > 0) {
+              personsToShow = [];
+              for (let i = 0; i < personsCount; i++) {
+                personsToShow[i] = responsePerson["layers"]["reprezentacja"][i].nazwa + " (" + responsePerson["layers"]["reprezentacja"][i].funkcja + ")";
+              }
+            }
         }
 
-      fetch(apiURL)
-      .then(response => response.json())
-      .then(json => {
-        if(json.Count===0){
-          this.setState({count: json['Count'], show: json['Dataobject'][0], isFetching: false, personsToShow:null})
-        } else {
-         let apiLinkRepresantation = "https://api-v3.mojepanstwo.pl/dane/krs_podmioty/" + json["Dataobject"][0]["id"] + ".json?layers[]=reprezentacja&layers[]=prokurenci&layers[]=wspolnicy";
+        let personsCountProxies = 0;
+        let personsProxiesToShow = [];
 
-          fetch(apiLinkRepresantation)
-          .then(response => response.json())
-          .then(responsePerson => {
-
-            let personsCount = 0;
-            let personsToShow = [];
-
-            if (responsePerson["layers"]["reprezentacja"].length > 0) {
-              personsCount = responsePerson["layers"]["reprezentacja"].length;
-                if (personsCount > 0) {
-                  personsToShow = [];
-                  for (let i = 0; i < personsCount; i++) {
-                    personsToShow[i] = responsePerson["layers"]["reprezentacja"][i].nazwa + " (" + responsePerson["layers"]["reprezentacja"][i].funkcja + ")";
-                  }
+        if (responsePerson["layers"]["prokurenci"].length > 0) {
+            personsCountProxies = responsePerson["layers"]["prokurenci"].length;
+            if (personsCount > 0) {
+                personsProxiesToShow = [];
+                for (let i = 0; i < personsCountProxies; i++) {
+                    personsProxiesToShow[i] = responsePerson["layers"]["prokurenci"][i].nazwa + " (" + responsePerson["layers"]["prokurenci"][i].funkcja + ")";
                 }
             }
+        }
 
-            let personsCountProxies = 0;
-            let personsProxiesToShow = [];
+        let personsCountPartners = 0;
+        let personsPartnersToShow = [];
 
-            if (responsePerson["layers"]["prokurenci"].length > 0) {
-                personsCountProxies = responsePerson["layers"]["prokurenci"].length;
-                if (personsCount > 0) {
-                    personsProxiesToShow = [];
-                    for (let i = 0; i < personsCountProxies; i++) {
-                        personsProxiesToShow[i] = responsePerson["layers"]["prokurenci"][i].nazwa + " (" + responsePerson["layers"]["prokurenci"][i].funkcja + ")";
-                    }
+        if (responsePerson["layers"]["wspolnicy"].length > 0) {
+            personsCountPartners = responsePerson["layers"]["wspolnicy"].length;
+            if (personsCount > 0) {
+                personsPartnersToShow = [];
+                for (let i = 0; i < personsCountPartners; i++) {
+                    personsPartnersToShow[i] = responsePerson["layers"]["wspolnicy"][i].nazwa + " (Wspólnik)";
                 }
             }
+        }
 
-            let personsCountPartners = 0;
-            let personsPartnersToShow = [];
+        personsToShow = personsToShow.concat(personsProxiesToShow);
+        personsToShow = personsToShow.concat(personsPartnersToShow);
+        personsToShow = [...new Set(personsToShow)];
 
-            if (responsePerson["layers"]["wspolnicy"].length > 0) {
-                personsCountPartners = responsePerson["layers"]["wspolnicy"].length;
-                if (personsCount > 0) {
-                    personsPartnersToShow = [];
-                    for (let i = 0; i < personsCountPartners; i++) {
-                        personsPartnersToShow[i] = responsePerson["layers"]["wspolnicy"][i].nazwa + " (Wspólnik)";
-                    }
-                }
-            }
-
-            personsToShow = personsToShow.concat(personsProxiesToShow);
-            personsToShow = personsToShow.concat(personsPartnersToShow);
-            personsToShow = [...new Set(personsToShow)];
-
-            this.setState({count: json['Count'], show: json['Dataobject'][0], isFetching: false, personsToShow:personsToShow})
-
-          });
-}
-        });
-
+        this.setState({count: json['Count'], show: json['Dataobject'][0], isFetching: false, personsToShow:personsToShow})
+      });
+    }
+    });
   };
 
   render() {
@@ -111,7 +108,7 @@ class Krs extends Component {
                     <li><span className="liTitle">Nazwa</span>{show.data['krs_podmioty.nazwa_skrocona'] === (null || "") ? "-" : show.data['krs_podmioty.nazwa_skrocona']}<br/>{show.data['krs_podmioty.nazwa'] === (null || "") ? "-" : show.data['krs_podmioty.nazwa']}</li>
                     <li><span className="liTitle">Forma prawna</span>{show.data['krs_podmioty.forma_prawna_str'] === (null || "") ? "-" : show.data['krs_podmioty.forma_prawna_str']}</li>
                     <li><span className="liTitle">Adres</span>{show.data['krs_podmioty.adres'] === (null || "") ? "-" : show.data['krs_podmioty.adres']}
-                      <br/><img src={locationiconSrc}/>
+                      <br/><img src={locationiconSrc} alt="Location"/>
                       <a target="_blank" rel="noopener noreferrer" href={'https://www.google.com/maps/search/' + show.data['krs_podmioty.adres_ulica'] + " " + show.data['krs_podmioty.adres_numer'] + " " + show.data['krs_podmioty.adres_poczta']}>Zobacz na mapie</a>
                     </li>
                     <li><span className="liTitle">NIP</span>{show.data['krs_podmioty.nip'] === (null || "") ? "-" : show.data['krs_podmioty.nip']}</li>
