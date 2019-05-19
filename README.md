@@ -8,7 +8,6 @@ Simple KRS (National Court Register) browser using external API.
 Technologies and libraries
 ----
 Libraries and technologies used in the project:
-- Node.js
 - [React.js](https://facebook.github.io/react/)
 - API: mojepanstwo.pl
 
