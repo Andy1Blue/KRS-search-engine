@@ -9,6 +9,7 @@ Technologies and libraries
 ----
 Libraries and technologies used in the project:
 - [React.js](https://facebook.github.io/react/)
+- [Vue.js](https://vuejs.org)
 - API: mojepanstwo.pl
 
 Planned implementations
